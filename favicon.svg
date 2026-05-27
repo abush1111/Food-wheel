@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 背景圆 -->
+  <circle cx="50" cy="50" r="45" fill="#FAFAF8" stroke="#E5E5E3" stroke-width="2"/>
+  
+  <!-- 扇形 -->
+  <path d="M50,50 L50,5 A45,45 0 0,1 89,27 Z" fill="#8FAE8B"/>
+  <path d="M50,50 L89,27 A45,45 0 0,1 89,73 Z" fill="#6B8CAE"/>
+  <path d="M50,50 L89,73 A45,45 0 0,1 50,95 Z" fill="#C4A4A0"/>
+  <path d="M50,50 L50,95 A45,45 0 0,1 11,73 Z" fill="#D4A574"/>
+  <path d="M50,50 L11,73 A45,45 0 0,1 11,27 Z" fill="#A8B5A2"/>
+  <path d="M50,50 L11,27 A45,45 0 0,1 50,5 Z" fill="#B8A9C9"/>
+  
+  <!-- 分割线 -->
+  <line x1="50" y1="50" x2="50" y2="5" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="50" x2="89" y2="27" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="50" x2="89" y2="73" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="50" x2="50" y2="95" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="50" x2="11" y2="73" stroke="white" stroke-width="2"/>
+  <line x1="50" y1="50" x2="11" y2="27" stroke="white" stroke-width="2"/>
+  
+  <!-- 中心圆 -->
+  <circle cx="50" cy="50" r="8" fill="white" stroke="#E5E5E3" stroke-width="1"/>
+</svg>
