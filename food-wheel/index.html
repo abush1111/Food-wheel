@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什么</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>今天吃什么</h1>
+            <p class="subtitle">让转盘帮你决定</p>
+        </header>
+
+        <main>
+            <!-- 输入区域 -->
+            <section class="input-section">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="foodInput" 
+                        placeholder="输入食物名称"
+                        autocomplete="off"
+                    >
+                    <button id="addBtn" class="btn-add">添加</button>
+                </div>
+                <div id="foodTags" class="food-tags">
+                    <!-- 食物标签动态生成 -->
+                </div>
+                <button id="randomFillBtn" class="btn-random-fill">🎲 随机填充</button>
+            </section>
+
+            <!-- 转盘区域 -->
+            <section class="wheel-section">
+                <div class="wheel-wrapper">
+                    <canvas id="wheelCanvas"></canvas>
+                    <div class="wheel-pointer"></div>
+                </div>
+                <button id="spinBtn" class="btn-spin" disabled>开始旋转</button>
+            </section>
+
+            <!-- 统计区域 -->
+            <section id="statsSection" class="stats-section hidden">
+                <div class="stats-header">
+                    <h3 class="stats-title">转到次数</h3>
+                    <button id="clearStatsBtn" class="btn-clear-stats">清除记录</button>
+                </div>
+                <div id="statsList" class="stats-list">
+                    <!-- 统计列表动态生成 -->
+                </div>
+            </section>
+
+            <!-- 结果弹窗 -->
+            <div id="resultModal" class="modal hidden">
+                <div class="modal-content">
+                    <p class="result-label">今天就吃</p>
+                    <h2 id="resultFood" class="result-food"></h2>
+                    <div class="modal-actions">
+                        <button id="againBtn" class="btn-again">再转一次</button>
+                        <button id="closeBtn" class="btn-close">好的</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <button id="clearBtn" class="btn-clear">清空所有</button>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
