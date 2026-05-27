@@ -1,0 +1,415 @@
+/* 今天吃什么 - 莫兰迪奶油系 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 莫兰迪奶油系配色 */
+    --bg-primary: #FAFAF8;
+    --bg-card: #FFFFFF;
+    --bg-secondary: #F5F5F3;
+    
+    --text-primary: #2C2C2E;
+    --text-secondary: #8E8E93;
+    --text-placeholder: #AEAEB2;
+    
+    --accent: #8FAE8B;  /* 豆沙绿 */
+    --accent-hover: #7A9A76;
+    --accent-light: rgba(143, 174, 139, 0.1);
+    
+    --danger: #C4756E;
+    --danger-hover: #B0645E;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --transition: 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* 头部 */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* 输入区域 */
+.input-section {
+    margin-bottom: 32px;
+}
+
+.input-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+#foodInput {
+    flex: 1;
+    height: 48px;
+    padding: 0 16px;
+    font-size: 16px;
+    font-family: inherit;
+    background: var(--bg-card);
+    border: 1.5px solid var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+#foodInput:focus {
+    border-color: var(--accent);
+}
+
+#foodInput::placeholder {
+    color: var(--text-placeholder);
+}
+
+.btn-add {
+    height: 48px;
+    padding: 0 20px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition), transform 150ms ease;
+}
+
+.btn-add:hover {
+    background: var(--accent-hover);
+}
+
+.btn-add:active {
+    transform: scale(0.97);
+}
+
+/* 食物标签 */
+.food-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 36px;
+}
+
+.food-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 400;
+    background: var(--accent-light);
+    color: var(--accent);
+    border: 1.5px solid transparent;
+    border-radius: 100px;
+    cursor: default;
+    transition: all var(--transition);
+    animation: tagIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.food-tag:hover {
+    border-color: var(--accent);
+}
+
+.food-tag .remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    color: var(--accent);
+    opacity: 0.6;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all var(--transition);
+}
+
+.food-tag .remove:hover {
+    opacity: 1;
+    background: rgba(143, 174, 139, 0.2);
+}
+
+@keyframes tagIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 随机填充按钮 */
+.btn-random-fill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: none;
+    border: 1.5px dashed var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-random-fill:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+/* 转盘区域 */
+.wheel-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.wheel-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+#wheelCanvas {
+    display: block;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-card);
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 20px solid var(--accent);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    z-index: 10;
+}
+
+.btn-spin {
+    height: 52px;
+    padding: 0 48px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-spin:hover:not(:disabled) {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-spin:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-spin:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 统计区域 */
+.stats-section {
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.stats-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.btn-clear-stats {
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: none;
+    border: 1.5px solid var(--bg-secondary);
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+
+.btn-clear-stats:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: rgba(196, 117, 110, 0.1);
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stats-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stats-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+}
+
+.stats-emoji {
+    font-size: 18px;
+}
+
+.stats-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+}
+
+.stats-bar-wrapper {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.stats-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 300ms ease;
+}
+
+.stats-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 35px;
+    text-align: right;
+}
+
+/* 底部 */
+footer {
+    text-align: center;
+}
+
+.btn-clear {
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+
+.btn-clear:hover {
+    color: var(--danger);
+    background: rgba(196, 117, 110, 0.1);
+}
+
+/* 响应式 */
+@media (max-width: 440px) {
+    body {
+        padding: 24px 16px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    #wheelCanvas {
+        width: 280px;
+        height: 280px;
+    }
+}
