@@ -4,6 +4,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    touch-action: manipulation;
 }
 
 :root {
@@ -398,10 +403,11 @@ footer {
     background: rgba(196, 117, 110, 0.1);
 }
 
-/* 响应式 */
+/* 移动端优化 */
 @media (max-width: 440px) {
     body {
         padding: 24px 16px;
+        -webkit-text-size-adjust: none;
     }
     
     h1 {
@@ -411,5 +417,55 @@ footer {
     #wheelCanvas {
         width: 280px;
         height: 280px;
+    }
+    
+    /* 增大触摸区域 */
+    .btn-add,
+    .btn-spin,
+    .btn-random-fill {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    /* 触摸反馈 */
+    .btn-add:active,
+    .btn-spin:active,
+    .btn-clear:active,
+    .btn-random-fill:active,
+    .btn-clear-stats:active {
+        transform: scale(0.96);
+        opacity: 0.8;
+    }
+    
+    /* 标签触摸反馈 */
+    .food-tag {
+        -webkit-touch-callout: none;
+        user-select: none;
+    }
+    
+    .food-tag .remove {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* 输入框优化 */
+    #foodInput {
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+    
+    /* 统计列表优化 */
+    .stats-item {
+        min-height: 44px;
+    }
+}
+
+/* 平板适配 */
+@media (min-width: 441px) and (max-width: 768px) {
+    #wheelCanvas {
+        width: 350px;
+        height: 350px;
     }
 }

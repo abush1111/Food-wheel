@@ -181,18 +181,62 @@ class FoodWheel {
         });
         
         // 监听窗口大小变化
-        window.addEventListener('resize', () => this.setupHighDPI());
+        window.addEventListener('resize', () => {
+            this.setupHighDPI();
+            this.drawWheel();
+        });
+        
+        // 移动端优化
+        this.setupMobileOptimizations();
         
         // 初始绘制
         this.drawWheel();
+    }
+    
+    // 移动端优化
+    setupMobileOptimizations() {
+        // 检测是否为移动设备
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (this.isMobile) {
+            // 防止双击缩放
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (e) => {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // 为按钮添加触摸反馈
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('touchstart', () => {
+                    btn.style.transform = 'scale(0.96)';
+                }, { passive: true });
+                btn.addEventListener('touchend', () => {
+                    btn.style.transform = '';
+                }, { passive: true });
+            });
+        }
     }
     
     // 设置高DPI Canvas
     setupHighDPI() {
         const dpr = window.devicePixelRatio || 1;
         const rect = this.canvas.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
+        
+        // 获取显示尺寸，如果返回0则使用默认值
+        let width = rect.width;
+        let height = rect.height;
+        
+        // 如果尺寸为0，使用CSS样式中的尺寸
+        if (width === 0 || height === 0) {
+            const style = window.getComputedStyle(this.canvas);
+            width = parseInt(style.width) || 320;
+            height = parseInt(style.height) || 320;
+        }
         
         // 设置实际像素大小（高分辨率）
         this.canvas.width = width * dpr;
@@ -204,6 +248,8 @@ class FoodWheel {
         // 保存显示尺寸用于绘图
         this.displayWidth = width;
         this.displayHeight = height;
+        
+        console.log('Canvas尺寸:', width, height, 'DPR:', dpr);
     }
     
     // 随机填充
@@ -456,6 +502,9 @@ class FoodWheel {
         this.isSpinning = false;
         this.spinBtn.disabled = false;
         this.spinBtn.textContent = '开始旋转';
+        
+        // 重新绘制转盘
+        this.drawWheel();
         
         // 停止旋转音效
         this.stopTickSound();
